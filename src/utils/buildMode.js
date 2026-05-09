@@ -1,4 +1,4 @@
-export const isStaticExport = process.env.GITHUB_PAGES === 'true';
+export const isStaticExport = process.env.GITHUB_PAGES === 'true' || process.env.STATIC_EXPORT === 'true';
 
 export const getDraftModeEnabled = async () => {
     if (isStaticExport) return false;

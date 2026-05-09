@@ -1,13 +1,16 @@
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const isStaticExport = isGitHubPages || process.env.STATIC_EXPORT === 'true';
 const basePath = isGitHubPages ? process.env.NEXT_PUBLIC_BASE_PATH || '' : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    ...(isGitHubPages ? {
-        assetPrefix: basePath || undefined,
-        basePath: basePath || undefined,
+    ...(isStaticExport ? {
         output: 'export',
         trailingSlash: true
+    } : {}),
+    ...(isGitHubPages ? {
+        assetPrefix: basePath || undefined,
+        basePath: basePath || undefined
     } : {}),
     distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
     reactStrictMode: true,
@@ -16,7 +19,7 @@ const nextConfig = {
         styledComponents: false
     },
     images: {
-        ...(isGitHubPages ? { unoptimized: true } : {}),
+        ...(isStaticExport ? { unoptimized: true } : {}),
         remotePatterns: [
             {
                 protocol: 'https',
@@ -24,7 +27,7 @@ const nextConfig = {
             }
         ]
     },
-    ...(!isGitHubPages ? {
+    ...(!isStaticExport ? {
         async headers() {
             return [
                 {

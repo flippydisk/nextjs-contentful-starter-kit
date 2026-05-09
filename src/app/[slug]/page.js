@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import ContentfulPage from '~/components/ContentfulPage';
 import JsonLdScript from '~/components/JsonLdScript';
+import StaticPrivacyPage from '~/components/StaticPrivacyPage';
 import {
     fetchData,
     fetchDataBySlug,
@@ -13,8 +14,16 @@ import { getDraftModeEnabled, isStaticExport } from '~/utils/buildMode';
 import hasContent from '~/utils/hasContent';
 import { buildPageStructuredData } from '~/utils/structuredData';
 
+export const dynamicParams = false;
+
+const staticFallbackSlugs = ['privacy'];
+
 export const generateStaticParams = async () => {
     const pages = await fetchData();
+
+    if (!Array.isArray(pages) || !pages.length) {
+        return staticFallbackSlugs.map(slug => ({ slug }));
+    }
 
     return pages
         .map(({ fields: { slug = '' } = {} }) => ({ slug }))
@@ -74,7 +83,11 @@ export default async function DynamicContentfulPage({
         fetchData({ preview })
     ]);
 
-    if (!hasContent(page)) return notFound();
+    if (!hasContent(page)) {
+        if (isStaticExport && slug === 'privacy') return <StaticPrivacyPage />;
+
+        return notFound();
+    }
 
     const {
         description = '',

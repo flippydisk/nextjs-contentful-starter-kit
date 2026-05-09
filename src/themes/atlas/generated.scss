@@ -170,4 +170,15 @@ html[data-theme="atlas"] .theme-switcher button[aria-pressed="true"] {
     html[data-theme="atlas"] body {
         width: min(100% - 1rem, 76rem);
     }
+
+    html[data-theme="atlas"] menu {
+        display: block;
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    html[data-theme="atlas"] menu > li,
+    html[data-theme="atlas"] menu section {
+        width: 100%;
+    }
 }

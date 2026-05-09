@@ -373,12 +373,19 @@ details[data-closing="true"] .rocket-details-panel {
 }
 
 .rocket-contentful-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
     margin: 0;
     padding: 0;
 }
 
 .rocket-contentful-footer li {
     list-style: none;
+}
+
+.rocket-contentful-footer li p {
+    margin: 0;
 }
 
 .rocket-contentful-footer > :last-child {

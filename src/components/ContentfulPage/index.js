@@ -1,12 +1,9 @@
 'use client';
 
 import { useContentfulInspectorMode, useContentfulLiveUpdates } from '@contentful/live-preview/react';
-import Link from 'next/link';
 import React from 'react';
 import ContentfulRichText from '~/components/ContentfulRichText';
-import RocketDisclosure from '~/components/RocketDisclosure';
-import StarterCredit from '~/components/StarterCredit';
-import ThemeSwitcher from '~/components/ThemeSwitcher';
+import RocketPageShell, { RocketDisclosureSection, starterProjectLinks } from '~/components/RocketPageShell';
 
 const isTagged = (entry = {}, tagId = '') => (entry?.metadata?.tags || []).some(tag => tag?.sys?.id === tagId);
 
@@ -76,6 +73,7 @@ const getPageHref = (slug = '') => {
 };
 
 const getVisiblePages = (pages = []) => pages.filter(({ fields: { slug = '' } = {} }) => slug !== '404');
+const contentfulProjectLinks = starterProjectLinks.slice(0, 4);
 
 export default function ContentfulPage({
     page = {},
@@ -95,174 +93,76 @@ export default function ContentfulPage({
     } = getFooterParts(footer);
     const title = livePage?.fields?.title || 'Contentful page';
     const visiblePages = getVisiblePages(livePages);
+    const pageLinks = visiblePages.map(({ fields: { slug = '', title: pageTitle = '' } = {} }) => ({
+        href: getPageHref(slug),
+        label: pageTitle || slug || 'Home'
+    }));
     const logoAsset = header?.fields?.assets?.[0];
     const logoProps = getAssetImageProps(logoAsset);
 
     return (
-        <>
-            <header aria-label="Site header">
-                <figure>
-                    <Link href="/">
-                        <img
-                            alt={logoProps.alt}
-                            height={logoProps.height}
-                            loading="eager"
-                            fetchPriority="high"
-                            src={logoProps.src}
-                            title={logoProps.title}
-                            width={logoProps.width}
-                        />
-                    </Link>
-                    <figcaption aria-hidden="true" />
-                    <span className="sr-only">Rocket themed Next.js starter kit</span>
-                </figure>
-            </header>
-            <div>
-                <menu aria-label="Page navigation">
-                    <li>
-                        <section aria-labelledby="contentful-theme-menu-heading">
-                            <RocketDisclosure
-                                controlsId="contentful-theme-menu-panel"
-                                summary="Theme"
-                                summaryId="contentful-theme-menu-heading"
-                            >
-                                <ThemeSwitcher />
-                            </RocketDisclosure>
-                        </section>
-                    </li>
-                    <li>
-                        <section aria-labelledby="contentful-page-menu-heading">
-                            <RocketDisclosure
-                                controlsId="contentful-page-menu-panel"
-                                summary="Pages"
-                                summaryId="contentful-page-menu-heading"
-                            >
-                                <nav aria-label="Contentful pages">
-                                    <ul>
-                                        {visiblePages.map(({ fields: { slug = '', title: pageTitle = '' } = {} }) => (
-                                            <li key={slug || pageTitle}>
-                                                <Link href={getPageHref(slug)}>{pageTitle || slug || 'Home'}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </nav>
-                            </RocketDisclosure>
-                        </section>
-                    </li>
-                    <li>
-                        <section aria-labelledby="contentful-links-menu-heading">
-                            <RocketDisclosure
-                                controlsId="contentful-links-menu-panel"
-                                summary="Links"
-                                summaryId="contentful-links-menu-heading"
-                            >
-                                <nav aria-label="Useful project links">
-                                    <ul>
-                                        <li>
-                                            <a href="https://nextjs.org/docs" rel="noreferrer" target="_blank">Next.js Docs</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.contentful.com/developers/docs/" rel="noreferrer" target="_blank">Contentful Docs</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://app.contentful.com/account/profile/cma_tokens" rel="noreferrer" target="_blank">CMA Tokens</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://github.com/FiloSottile/mkcert#installation" rel="noreferrer" target="_blank">mkcert Install</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </RocketDisclosure>
-                        </section>
-                    </li>
-                    <li>
-                        <section aria-labelledby="contentful-commands-menu-heading">
-                            <RocketDisclosure
-                                controlsId="contentful-commands-menu-panel"
-                                summary="Commands"
-                                summaryId="contentful-commands-menu-heading"
-                            >
-                                <ul aria-label="Common npm commands">
-                                    <li><code>npm run dev</code></li>
-                                    <li><code>npm run test</code></li>
-                                    <li><code>npm run build</code></li>
-                                    <li><code>npm run contentful:import</code></li>
-                                </ul>
-                            </RocketDisclosure>
-                        </section>
-                    </li>
-                </menu>
-                <main aria-label={title}>
-                    {content.map((component, index) => {
-                        const componentId = getComponentId(component, index);
-                        const headingId = `${componentId}-heading`;
-                        const panelId = `${componentId}-panel`;
+        <RocketPageShell
+            idPrefix="contentful"
+            logo={logoProps}
+            mainAriaLabel={title}
+            pageLinks={pageLinks}
+            pageLinksLabel="Contentful pages"
+            pageMenuId="contentful-page-menu"
+            projectLinks={contentfulProjectLinks}
+            showStaticFooter={false}
+        >
+            {content.map((component, index) => {
+                const componentId = getComponentId(component, index);
 
-                        return (
-                            <section
-                                {...inspectorProps({
-                                    entryId: componentId,
-                                    fieldId: 'content'
-                                })}
-                                aria-labelledby={headingId}
-                                key={componentId}
-                            >
-                                <RocketDisclosure
-                                    controlsId={panelId}
-                                    summary={getComponentSummary(component, title)}
-                                    summaryId={headingId}
-                                >
-                                    <article className="rocket-readme">
-                                        <ContentfulRichText richText={component?.fields?.content} />
-                                    </article>
-                                </RocketDisclosure>
-                            </section>
-                        );
+                return (
+                    <RocketDisclosureSection
+                        id={componentId}
+                        key={componentId}
+                        sectionProps={inspectorProps({
+                            entryId: componentId,
+                            fieldId: 'content'
+                        })}
+                        summary={getComponentSummary(component, title)}
+                    >
+                        <article className="rocket-readme">
+                            <ContentfulRichText richText={component?.fields?.content} />
+                        </article>
+                    </RocketDisclosureSection>
+                );
+            })}
+            {!content.length ? (
+                <RocketDisclosureSection
+                    id="contentful-page"
+                    summary={title}
+                >
+                    <article className="rocket-readme">
+                        <ContentfulRichText
+                            richText={{
+                                nodeType: 'document',
+                                data: {},
+                                content: []
+                            }}
+                        />
+                    </article>
+                </RocketDisclosureSection>
+            ) : null}
+            {footer ? (
+                <RocketDisclosureSection
+                    id="contentful-footer"
+                    sectionProps={inspectorProps({
+                        entryId: footer?.sys?.id,
+                        fieldId: 'linkedEntries'
                     })}
-                    {!content.length ? (
-                        <section aria-labelledby="contentful-page-heading">
-                            <RocketDisclosure
-                                controlsId="contentful-page-panel"
-                                summary={title}
-                                summaryId="contentful-page-heading"
-                            >
-                                <article className="rocket-readme">
-                                    <ContentfulRichText
-                                        richText={{
-                                            nodeType: 'document',
-                                            data: {},
-                                            content: []
-                                        }}
-                                    />
-                                </article>
-                            </RocketDisclosure>
-                        </section>
-                    ) : null}
-                    {footer ? (
-                        <section
-                            {...inspectorProps({
-                                entryId: footer?.sys?.id,
-                                fieldId: 'linkedEntries'
-                            })}
-                            aria-labelledby="contentful-footer-heading"
-                        >
-                            <RocketDisclosure
-                                controlsId="contentful-footer-panel"
-                                summary="Footer"
-                                summaryId="contentful-footer-heading"
-                            >
-                                <footer className="rocket-readme rocket-contentful-footer" aria-label="Site footer">
-                                    <nav aria-label="Footer links">
-                                        <ContentfulRichText richText={links?.fields?.content} />
-                                    </nav>
-                                    <ContentfulRichText richText={trademark?.fields?.content} />
-                                </footer>
-                            </RocketDisclosure>
-                        </section>
-                    ) : null}
-                    <StarterCredit />
-                </main>
-            </div>
-        </>
+                    summary="Footer"
+                >
+                    <footer className="rocket-readme rocket-contentful-footer" aria-label="Site footer">
+                        <nav aria-label="Footer links">
+                            <ContentfulRichText richText={links?.fields?.content} />
+                        </nav>
+                        <ContentfulRichText richText={trademark?.fields?.content} />
+                    </footer>
+                </RocketDisclosureSection>
+            ) : null}
+        </RocketPageShell>
     );
 }
