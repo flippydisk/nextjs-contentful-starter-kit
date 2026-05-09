@@ -2,10 +2,14 @@ import dayjs from 'dayjs';
 import { fetchData } from '~/contentful/contentfulAPIUtils';
 import { NEXT_PUBLIC_SITE_URL } from '~/state/env';
 import hasContent from '~/utils/hasContent';
+import { withPublicBasePath } from '~/utils/publicPath';
 
 export const dynamic = 'force-static';
 
 const siteUrl = NEXT_PUBLIC_SITE_URL || 'https://localhost:3000';
+const {
+    origin: siteOrigin
+} = new URL(siteUrl);
 const staticFallbackEntries = [
     {
         priority: '0.5',
@@ -25,8 +29,10 @@ const formatDate = dateString => dayjs(dateString).format('YYYY-MM-DD');
 const getPageUrl = (slug = '') => {
     const path = !slug || slug === 'home' ? '/' : `/${slug}`;
 
-    return new URL(path, siteUrl).toString();
+    return new URL(withPublicBasePath(path), siteOrigin).toString();
 };
+
+const getStylesheetPath = () => withPublicBasePath('/sitemap.xsl');
 
 const getSitemapEntries = async () => {
     const pages = await fetchData();
@@ -97,7 +103,7 @@ const buildSitemapXml = (entries = []) => {
   </url>`).join('\n');
 
     return `<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
+<?xml-stylesheet type="text/xsl" href="${escapeXml(getStylesheetPath())}"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
