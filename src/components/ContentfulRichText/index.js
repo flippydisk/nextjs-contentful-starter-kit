@@ -3,6 +3,7 @@ import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import React from 'react';
 import hasContent from '~/utils/hasContent';
+import { withPublicBasePath } from '~/utils/publicPath';
 
 const currentYear = new Date().getFullYear();
 
@@ -82,11 +83,20 @@ export default function ContentfulRichText({ richText = {} }) {
                     </figure>
                 );
             },
-            [INLINES.HYPERLINK]: (node, children) => (
-                <a href={node?.data?.uri || '#'} rel="noreferrer" target="_blank">
-                    {replaceVariables(children)}
-                </a>
-            ),
+            [INLINES.HYPERLINK]: (node, children) => {
+                const href = node?.data?.uri || '#';
+                const isExternal = /^https?:\/\//.test(href);
+
+                return (
+                    <a
+                        href={withPublicBasePath(href)}
+                        rel={isExternal ? 'noreferrer' : undefined}
+                        target={isExternal ? '_blank' : undefined}
+                    >
+                        {replaceVariables(children)}
+                    </a>
+                );
+            },
             [INLINES.ENTRY_HYPERLINK]: (node, children) => {
                 const href = getEntryHref(node?.data?.target);
 

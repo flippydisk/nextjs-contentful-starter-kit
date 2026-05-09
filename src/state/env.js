@@ -11,6 +11,7 @@ export const {
         CONTENTFUL_MIGRATION_TOKEN,
         CONTENTFUL_PREVIEW_SECRET,
         // Public tokens
+        NEXT_PUBLIC_BASE_PATH,
         NEXT_PUBLIC_SITE_PROTOCOL,
         NEXT_PUBLIC_SITE_URL,
         NEXT_PUBLIC_SITE_SLOGAN,

@@ -3,6 +3,7 @@ import React from 'react';
 import RocketDisclosure from '~/components/RocketDisclosure';
 import StarterCredit from '~/components/StarterCredit';
 import ThemeSwitcher from '~/components/ThemeSwitcher';
+import { withPublicBasePath } from '~/utils/publicPath';
 
 const defaultLogo = {
     alt: 'Next.js Starter Kit home',
@@ -38,6 +39,7 @@ export const footerLinks = [
 
 const renderLink = ({ href, label }) => {
     const isExternal = /^https?:\/\//.test(href);
+    const isPublicFile = /\.[a-z0-9]+$/i.test(href);
 
     if (isExternal) {
         return (
@@ -50,6 +52,8 @@ const renderLink = ({ href, label }) => {
             </a>
         );
     }
+
+    if (isPublicFile) return <a href={withPublicBasePath(href)}>{label}</a>;
 
     return <Link href={href}>{label}</Link>;
 };
