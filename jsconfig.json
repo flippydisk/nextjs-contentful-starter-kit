@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ES6",
+    "checkJs": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "moduleResolution": "node" ,
+    "resolveJsonModule": true
+  }
+}

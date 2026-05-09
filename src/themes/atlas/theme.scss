@@ -1,0 +1,27 @@
+@theme {
+    --color-atlas-text: #263238;
+    --color-atlas-heading: #164e63;
+    --color-atlas-summary: #9a3412;
+    --color-atlas-accent: #0f766e;
+    --color-atlas-danger: #b42318;
+    --color-atlas-panel: #ffffff;
+    --color-atlas-panel-bar: #0f766e;
+    --color-atlas-page: #edf2f7;
+    --color-atlas-rule: #cbd5e1;
+    --font-atlas-body: var(--font-body), Arial, sans-serif;
+    --font-atlas-display: var(--font-display), Georgia, serif;
+}
+
+html[data-theme="atlas"] {
+    --rocket-text: #263238;
+    --rocket-heading: #164e63;
+    --rocket-summary: #9a3412;
+    --rocket-accent: #0f766e;
+    --rocket-danger: #b42318;
+    --rocket-panel: #ffffff;
+    --rocket-panel-bar: #0f766e;
+    --rocket-page: #edf2f7;
+    --rocket-rule: #cbd5e1;
+    --rocket-body-font: var(--font-body), Arial, sans-serif;
+    --rocket-display-font: var(--font-display), Georgia, serif;
+}

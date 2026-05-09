@@ -1,0 +1,37 @@
+@use './_tokens.scss' as *;
+@use './_mixins.scss' as *;
+@import '@fortawesome/fontawesome-free/css/fontawesome.css';
+@import '@fortawesome/fontawesome-free/css/solid.css';
+@import '@fortawesome/fontawesome-free/css/brands.css';
+
+body {
+    font-family: $rocket-font-body;
+}
+
+@include rocket-plain-heading('h1, h2, h3, h4, h5, h6');
+@include rocket-plain-heading('.rocket-heading-1, .rocket-heading-2, .rocket-heading-3');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.rocket-heading-1,
+.rocket-heading-2,
+.rocket-heading-3 {
+    font-family: $rocket-font-display;
+}
+
+h2,
+.rocket-heading-2 {
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+h3,
+.rocket-heading-3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+}

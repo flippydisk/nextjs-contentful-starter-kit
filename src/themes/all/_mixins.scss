@@ -1,0 +1,38 @@
+@use './_tokens.scss' as *;
+
+@mixin rocket-plain-heading($selector) {
+    #{$selector} {
+        font-weight: 400;
+    }
+}
+
+@mixin rocket-flex-center($justify: center) {
+    display: flex;
+    align-items: center;
+    justify-content: $justify;
+}
+
+@mixin rocket-inline-flex-center() {
+    display: inline-flex;
+    align-items: center;
+}
+
+@mixin rocket-icon-shell() {
+    @include rocket-inline-flex-center();
+    justify-content: center;
+    flex: 0 0 auto;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+@mixin rocket-icon-svg() {
+    display: block;
+    vertical-align: middle;
+}
+
+@mixin rocket-icon-height($size, $selector) {
+    #{$selector},
+    #{$selector} svg {
+        height: $size;
+    }
+}

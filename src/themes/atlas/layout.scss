@@ -1,0 +1,133 @@
+html[data-theme="atlas"] {
+    background:
+        linear-gradient(180deg, rgb(22 78 99 / 8%) 0, rgb(22 78 99 / 0%) 22rem),
+        var(--rocket-page);
+    font-size: 100%;
+    text-align: left;
+}
+
+html[data-theme="atlas"] body {
+    width: min(100% - 2rem, 76rem);
+    margin: 0 auto;
+    color: var(--rocket-text);
+}
+
+html[data-theme="atlas"] body > div {
+    gap: 1.25rem;
+}
+
+html[data-theme="atlas"] header,
+html[data-theme="atlas"] section {
+    overflow: hidden;
+    border: 1px solid rgb(15 118 110 / 18%);
+    border-radius: 8px;
+    background: var(--rocket-panel);
+    box-shadow: 0 10px 28px rgb(15 23 42 / 10%);
+}
+
+html[data-theme="atlas"] header {
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+}
+
+html[data-theme="atlas"] header::before,
+html[data-theme="atlas"] header::after,
+html[data-theme="atlas"] header figcaption::before,
+html[data-theme="atlas"] header figcaption::after,
+html[data-theme="atlas"] menu section::before,
+html[data-theme="atlas"] menu section::after,
+html[data-theme="atlas"] main section::before,
+html[data-theme="atlas"] main section::after,
+html[data-theme="atlas"] details::before {
+    display: none;
+}
+
+html[data-theme="atlas"] header figure::before {
+    display: none;
+}
+
+html[data-theme="atlas"] header figure {
+    display: flex;
+    align-items: center;
+}
+
+html[data-theme="atlas"] menu {
+    flex-basis: clamp(15rem, 22%, 19rem);
+}
+
+html[data-theme="atlas"] menu section,
+html[data-theme="atlas"] main section {
+    margin-bottom: 1rem;
+}
+
+html[data-theme="atlas"] details summary {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgb(15 118 110 / 18%);
+    background: linear-gradient(90deg, rgb(15 118 110 / 12%), rgb(154 52 18 / 8%));
+    font-size: 0.95rem;
+    letter-spacing: 0;
+}
+
+html[data-theme="atlas"] details:not([open]) summary,
+html[data-theme="atlas"] details[data-closing="true"] summary {
+    border-bottom-color: transparent;
+}
+
+html[data-theme="atlas"] details summary:focus-visible {
+    color: var(--rocket-heading);
+    outline: 2px solid var(--rocket-accent);
+    outline-offset: -4px;
+    text-decoration: none;
+}
+
+html[data-theme="atlas"] .rocket-details-content {
+    padding: 1.25rem;
+}
+
+html[data-theme="atlas"] .rocket-readme h1 {
+    color: var(--rocket-heading);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+html[data-theme="atlas"] .rocket-readme pre,
+html[data-theme="atlas"] .rocket-readme :not(pre) > code {
+    border-color: rgb(15 118 110 / 18%);
+    background: #f8fafc;
+}
+
+html[data-theme="atlas"] .starter-credit {
+    border-color: rgb(15 118 110 / 18%);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 10px 28px rgb(15 23 42 / 8%);
+}
+
+html[data-theme="atlas"] a {
+    color: var(--rocket-heading);
+}
+
+html[data-theme="atlas"] a:hover {
+    color: var(--rocket-accent);
+}
+
+html[data-theme="atlas"] .theme-switcher {
+    border-color: rgb(15 118 110 / 18%);
+    background: #f8fafc;
+}
+
+html[data-theme="atlas"] .theme-switcher button {
+    border-color: rgb(15 118 110 / 30%);
+    background: #ffffff;
+    color: var(--rocket-heading);
+}
+
+html[data-theme="atlas"] .theme-switcher button[aria-pressed="true"] {
+    background: var(--rocket-heading);
+    color: #ffffff;
+}
+
+@media screen and (max-width: 60rem) {
+    html[data-theme="atlas"] body {
+        width: min(100% - 1rem, 76rem);
+    }
+}
